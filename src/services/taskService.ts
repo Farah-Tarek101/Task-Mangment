@@ -1,21 +1,21 @@
-import Task from '../models/Task';
 import Project from '../models/Project';
+import Task from '../models/Task';
+import { TaskInput, TaskListQuery, TaskPriority, TaskResponse } from '../types';
 import { AppError } from '../utils/AppError';
 import {
-  parsePagination,
   buildPaginatedResponse,
-  parseSort,
   buildTaskFilters,
   isValidObjectId,
+  parsePagination,
+  parseSort,
   PRIORITY_ORDER,
 } from '../utils/helpers';
 import {
   validateTaskCreate,
-  validateTaskUpdate,
   validateTaskListQuery,
+  validateTaskUpdate,
 } from '../validators';
 import { assertProjectExists } from './projectService';
-import { TaskInput, TaskListQuery, TaskPriority, TaskResponse } from '../types';
 
 interface TaskLean {
   _id: { toString(): string };
@@ -176,9 +176,10 @@ export async function getTaskById(id: string): Promise<TaskResponse> {
   if (!task) {
     throw new AppError('Task not found', 404);
   }
-
+  //console.log("Found task:", task);
   const project = await Project.findById(task.project_id).select('name').lean();
 
+  
   return formatTask(task as TaskLean, project?.name || null);
 }
 
@@ -186,20 +187,19 @@ export async function updateTask(id: string, body: TaskInput): Promise<TaskRespo
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid task id', 400);
   }
+const existing = await Task.findById(id);
+if (!existing) {
+  throw new AppError('Task not found', 404);
+}
 
-  const existing = await Task.findById(id);
-  if (!existing) {
-    throw new AppError('Task not found', 404);
-  }
+if (body.project_id !== undefined) {
+  throw new AppError('project_id cannot be changed after task creation', 400);
+}
 
-  const updates = validateTaskUpdate(body, existing.status);
+const updates = validateTaskUpdate(body, existing.status);
 
-  if (body.project_id !== undefined) {
-    throw new AppError('project_id cannot be changed after task creation', 400);
-  }
-
-  Object.assign(existing, updates);
-  await existing.save();
+Object.assign(existing, updates);
+await existing.save();
 
   const project = await Project.findById(existing.project_id).select('name').lean();
   return formatTask(existing.toObject() as TaskLean, project?.name || null);
