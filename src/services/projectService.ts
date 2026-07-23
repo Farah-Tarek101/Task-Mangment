@@ -1,9 +1,9 @@
 import Project from '../models/Project';
 import Task from '../models/Task';
-import { AppError } from '../utils/AppError';
-import { parsePagination, buildPaginatedResponse, isValidObjectId } from '../utils/helpers';
-import { validateProjectCreate, validateProjectUpdate } from '../validators';
 import { MongoError, ProjectInput, ProjectResponse, TaskListQuery } from '../types';
+import { AppError } from '../utils/AppError';
+import { buildPaginatedResponse, isValidObjectId, parsePagination } from '../utils/helpers';
+import { validateProjectCreate, validateProjectUpdate } from '../validators';
 
 export async function createProject(body: ProjectInput): Promise<ProjectResponse> {
   const data = validateProjectCreate(body);
@@ -22,9 +22,19 @@ export async function createProject(body: ProjectInput): Promise<ProjectResponse
 
 export async function listProjects(query: TaskListQuery) {
   const pagination = parsePagination(query);
+
   const [projects, total] = await Promise.all([
-    Project.find().sort({ created_at: -1 }).skip(pagination.skip).limit(pagination.limit).lean(),
-    Project.countDocuments(),
+    Project.find({
+      deleted_at: null,
+    })
+      .sort({ created_at: -1 })
+      .skip(pagination.skip)
+      .limit(pagination.limit)
+      .lean(),
+
+    Project.countDocuments({
+      deleted_at: null,
+    }),
   ]);
 
   const data: ProjectResponse[] = projects.map((p) => ({
@@ -43,7 +53,11 @@ export async function getProjectById(id: string): Promise<ProjectResponse> {
     throw new AppError('Invalid project id', 400);
   }
 
-  const project = await Project.findById(id).lean();
+  const project = await Project.findOne({
+    _id: id,
+    deleted_at: null,
+  }).lean();
+
   if (!project) {
     throw new AppError('Project not found', 404);
   }
@@ -65,10 +79,17 @@ export async function updateProject(id: string, body: ProjectInput): Promise<Pro
   const updates = validateProjectUpdate(body);
 
   try {
-    const project = await Project.findByIdAndUpdate(id, updates, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    const project = await Project.findOneAndUpdate(
+  {
+    _id: id,
+    deleted_at: null,
+  },
+  updates,
+  {
+    new: true,
+    runValidators: true,
+  }
+).lean();
 
     if (!project) {
       throw new AppError('Project not found', 404);
@@ -95,13 +116,31 @@ export async function deleteProject(id: string) {
     throw new AppError('Invalid project id', 400);
   }
 
-  const project = await Project.findById(id);
+  const project = await Project.findOne({
+    _id: id,
+    deleted_at: null,
+  });
+
   if (!project) {
     throw new AppError('Project not found', 404);
   }
 
-  await Task.deleteMany({ project_id: id });
-  await Project.findByIdAndDelete(id);
+ 
+  await Task.updateMany(
+    { 
+      project_id: id,
+      deleted_at: null
+    },
+    { 
+      deleted_at: new Date() 
+    }
+  );
+  await Project.findByIdAndUpdate(
+    id,
+    { 
+      deleted_at: new Date() 
+    }
+  );
 
   return { message: 'Project and associated tasks deleted successfully' };
 }
@@ -111,7 +150,10 @@ export async function assertProjectExists(projectId: string): Promise<void> {
     throw new AppError('Invalid project id', 400);
   }
 
-  const exists = await Project.exists({ _id: projectId });
+  const exists = await Project.exists({
+    _id: projectId,
+    deleted_at: null,
+  });
   if (!exists) {
     throw new AppError('Project not found', 404);
   }

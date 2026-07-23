@@ -27,6 +27,7 @@ interface TaskLean {
   due_date: Date | null;
   created_at: Date;
   updated_at: Date;
+  deleted_at: Date | null;
 }
 
 export function formatTask(task: TaskLean, projectName: string | null = null): TaskResponse {
@@ -97,7 +98,10 @@ export async function listTasksByProject(projectId: string, query: TaskListQuery
     throw new AppError(sortResult.error, 400);
   }
 
-  const filters = { project_id: projectId, ...buildTaskFilters(query) };
+  const filters = {
+  project_id: projectId,
+  deleted_at: null,
+  ...buildTaskFilters(query),};
 
   if (sortResult.isPrioritySort) {
     const [tasks, total] = await Promise.all([
@@ -130,7 +134,9 @@ export async function listAllTasks(query: TaskListQuery) {
     throw new AppError(sortResult.error, 400);
   }
 
-  const filters = buildTaskFilters(query);
+  const filters = {
+  deleted_at: null,
+  ...buildTaskFilters(query),};
 
   if (sortResult.isPrioritySort) {
     const [tasks, total] = await Promise.all([
@@ -172,12 +178,18 @@ export async function getTaskById(id: string): Promise<TaskResponse> {
     throw new AppError('Invalid task id', 400);
   }
 
-  const task = await Task.findById(id).lean();
+  const task = await Task.findOne({
+  _id: id,
+  deleted_at: null,}).lean();
   if (!task) {
     throw new AppError('Task not found', 404);
   }
   //console.log("Found task:", task);
-  const project = await Project.findById(task.project_id).select('name').lean();
+  const project = await Project.findOne({
+  _id: task.project_id,
+  deleted_at: null,})
+.select('name')
+.lean();
 
   
   return formatTask(task as TaskLean, project?.name || null);
@@ -187,7 +199,9 @@ export async function updateTask(id: string, body: TaskInput): Promise<TaskRespo
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid task id', 400);
   }
-const existing = await Task.findById(id);
+const existing = await Task.findOne({
+  _id: id,
+  deleted_at: null,});
 if (!existing) {
   throw new AppError('Task not found', 404);
 }
@@ -201,8 +215,14 @@ const updates = validateTaskUpdate(body, existing.status);
 Object.assign(existing, updates);
 await existing.save();
 
-  const project = await Project.findById(existing.project_id).select('name').lean();
-  return formatTask(existing.toObject() as TaskLean, project?.name || null);
+  const project = await Project.findOne({
+  _id: existing.project_id,
+  deleted_at: null,
+})
+.select('name')
+.lean();
+
+return formatTask(existing.toObject() as TaskLean, project?.name || null);
 }
 
 export async function deleteTask(id: string) {
@@ -210,7 +230,18 @@ export async function deleteTask(id: string) {
     throw new AppError('Invalid task id', 400);
   }
 
-  const task = await Task.findByIdAndDelete(id);
+  const task = await Task.findOneAndUpdate(
+  {
+    _id: id,
+    deleted_at: null,
+  },
+  {
+    deleted_at: new Date(),
+  },
+  {
+    new: true,
+  }
+);
   if (!task) {
     throw new AppError('Task not found', 404);
   }

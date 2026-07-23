@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
-import { TASK_STATUSES, TASK_PRIORITIES } from '../utils/helpers';
 import { TaskPriority, TaskStatus } from '../types';
+import { TASK_PRIORITIES, TASK_STATUSES } from '../utils/helpers';
 
 export interface ITask extends Document {
   project_id: Types.ObjectId;
@@ -11,6 +11,7 @@ export interface ITask extends Document {
   due_date: Date | null;
   created_at: Date;
   updated_at: Date;
+  deleted_at: Date | null;
 }
 
 const taskSchema = new Schema<ITask>(
@@ -53,6 +54,10 @@ const taskSchema = new Schema<ITask>(
       type: Date,
       default: null,
     },
+    deleted_at: {
+      type: Date,
+      default: null,
+      },
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
@@ -83,5 +88,6 @@ taskSchema.index({ status: 1, priority: 1 });
 taskSchema.index({ due_date: 1 });
 taskSchema.index({ created_at: -1 });
 taskSchema.index({ title: 'text', description: 'text' });
+taskSchema.index({ deleted_at: 1 });
 
 export default mongoose.model<ITask>('Task', taskSchema);

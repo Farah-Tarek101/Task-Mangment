@@ -5,6 +5,7 @@ export interface IProject extends Document {
   description: string | null;
   created_at: Date;
   updated_at: Date;
+  deleted_at: Date | null;
 }
 
 const projectSchema = new Schema<IProject>(
@@ -19,6 +20,10 @@ const projectSchema = new Schema<IProject>(
       type: String,
       trim: true,
       maxlength: [2000, 'Description cannot exceed 2000 characters'],
+      default: null,
+    },
+    deleted_at: {
+      type: Date,
       default: null,
     },
   },
@@ -38,5 +43,6 @@ const projectSchema = new Schema<IProject>(
 
 projectSchema.index({ name: 1 }, { unique: true });
 projectSchema.index({ created_at: -1 });
+projectSchema.index({ deleted_at: 1 });
 
 export default mongoose.model<IProject>('Project', projectSchema);

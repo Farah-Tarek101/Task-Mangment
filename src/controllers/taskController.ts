@@ -30,3 +30,4 @@ export const deleteTask = asyncHandler(async (req, res) => {
   const result = await taskService.deleteTask(req.params.id);
   res.json(result);
 });
+
