@@ -14,10 +14,129 @@
           "name": "add new project",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-type",
+                "sortOrder": 4,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Type header is added to help the server identify the media type of the request body that is present in this request.\n\nUse the request body tab to control the value or to remove this header.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Type",
+                "value": "application/json",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "content-length",
+                "sortOrder": 5,
+                "infoTitle": "This header was automatically added",
+                "info": "The Content-Length header was added to indicate to the server the size of the request body that is added to this request. Server uses this value to parse the request body accurately.\n\nYou can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to body",
+                "key": "Content-Length",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjJkNThmMzkzNDY2ZWFhZWUwYjNiMCIsImlhdCI6MTc4NDg2MjEzNCwiZXhwIjoxNzg1NDY2OTM0fQ.068azSqPJxeEhYCWW_szJp0pOh_K_J7nEnuaAKrVhNc",
+                "type": "text",
+                "id": 0
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"fix bugs\",\r\n  \"description\": \"fix new bugs\"\r\n}",
+              "raw": "{\r\n  \"name\": \"Task Management App19\",\r\n  \"description\": \"Backend internship project\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -46,7 +165,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"integration testing\",\r\n  \"description\": \"\"\r\n}",
+              "raw": "{\r\n  \"name\": \"testings\",\r\n  \"description\": \"\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -94,7 +213,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a611444f7084b1c024e7a07",
+              "raw": "http://localhost:3000/api/projects/6a637d7734639dd28c654007",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -103,7 +222,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a611444f7084b1c024e7a07"
+                "6a637d7734639dd28c654007"
               ]
             }
           },
@@ -124,7 +243,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a6112c3f7084b1c024e79f3",
+              "raw": "http://localhost:3000/api/projects/6a637d7734639dd28c654007",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -133,7 +252,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a6112c3f7084b1c024e79f3"
+                "6a637d7734639dd28c654007"
               ]
             }
           },
@@ -143,9 +262,103 @@
           "name": "delete project by id",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "name": "cache-control",
+                "sortOrder": 2,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added \"Cache-Control: no-cache\" as a precautionary measure to prevent the server from returning stale response when one makes repeated requests.\n\nYou can remove this header in the app settings or enter a new one with a different value.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Cache-Control",
+                "value": "no-cache",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "postman-token",
+                "sortOrder": 3,
+                "infoTitle": "We recommend using this header",
+                "info": "The Postman-Token header appends a random UUID to every outgoing request. Postman adds this header for API developers to better debug requests sent and to ensure separate requests appear distinct to the receiving server.\n\nYou can remove this header in the app settings.",
+                "allowedToToggle": false,
+                "disableEdit": true,
+                "previewSettingsLink": "Go to settings",
+                "key": "Postman-Token",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "host",
+                "sortOrder": 6,
+                "infoTitle": "We recommend using this header",
+                "info": "The Host header is added to identify the domain name for which a request is being sent to the server. This header is implicitly sent by every HTTP client.\n\nYou can remove the header or enter a new one with a different value. It is most likely that without this header, your request will return an HTTP 400 error.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Host",
+                "value": "<calculated when request is sent>",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "user-agent",
+                "sortOrder": 7,
+                "infoTitle": "We recommend using this header",
+                "info": "The User-Agent header is added to help the server identify Postman as the HTTP requesting application or client.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "User-Agent",
+                "value": "PostmanRuntime/7.39.1",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept",
+                "sortOrder": 8,
+                "infoTitle": "We recommend using this header",
+                "info": "The \"Accept: */*\" header is added to tell the server that Postman can understand and process all forms of response content types.\n\nIt is recommended that this header be sent, but you can remove the header or enter a new one with a different value.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept",
+                "value": "*/*",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "accept-encoding",
+                "sortOrder": 9,
+                "infoTitle": "We recommend using this header",
+                "info": "The Accept-Encoding header is added to indicate to the server that Postman HTTP client supports a defined list of content-encoding or compression algorithms as response.\n\nYou can remove the header or enter a new one with a different value. Doing that may not accurately render the response within the app.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Accept-Encoding",
+                "value": "gzip, deflate, br",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "name": "connection",
+                "sortOrder": 10,
+                "infoTitle": "We recommend using this header",
+                "info": "Postman added the Connection header to indicate the server to keep the underlying network connection open once the current response is received. This allows Postman to reuse the same connection for faster response times in subsequent requests to the same server.\n\nYou can remove this header or enter a new one with a different value, such as `Connection: Close` to control this behaviour.",
+                "allowedToToggle": true,
+                "disableEdit": true,
+                "key": "Connection",
+                "value": "keep-alive",
+                "system": true,
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjJkNThmMzkzNDY2ZWFhZWUwYjNiMCIsImlhdCI6MTc4NDg2MjEzNCwiZXhwIjoxNzg1NDY2OTM0fQ.068azSqPJxeEhYCWW_szJp0pOh_K_J7nEnuaAKrVhNc",
+                "type": "text",
+                "id": 0,
+                "disabled": true
+              }
+            ],
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a611145f7084b1c024e79e7",
+              "raw": "http://localhost:3000/api/projects/6a6388c659aba4684eb43439",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -154,7 +367,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a611145f7084b1c024e79e7"
+                "6a6388c659aba4684eb43439"
               ]
             }
           },
@@ -172,7 +385,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"add unit test\",\r\n  \"description\": \"do unit test for the website\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"medium\",\r\n  \"due_date\": null\r\n}",
+              "raw": "{\r\n  \"title\": \"7th Task\",\r\n  \"description\": \"Testing task creation5\",\r\n  \"priority\": \"high\",\r\n  \"status\": \"todo\",\r\n  \"due_date\": \"2026-08-10\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -180,7 +393,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a6112c3f7084b1c024e79f3/tasks",
+              "raw": "http://localhost:3000/api/projects/6a638b5a536c0d69945c5d26/tasks",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -189,7 +402,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a6112c3f7084b1c024e79f3",
+                "6a638b5a536c0d69945c5d26",
                 "tasks"
               ]
             }
@@ -203,7 +416,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"add unit test\",\r\n  \"description\": \"do unit test for the website\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"medium\",\r\n  \"due_date\": null\r\n}",
+              "raw": "{\r\n  \"title\": \"add regressiont test\",\r\n  \"description\": \"do regression test for the website\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"medium\",\r\n  \"due_date\": \"7/22/2026\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -211,7 +424,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a6112c3f7084b1c024e79f3/tasks",
+              "raw": "http://localhost:3000/api/projects/6a637d7734639dd28c654007/tasks",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -220,7 +433,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a6112c3f7084b1c024e79f3",
+                "6a637d7734639dd28c654007",
                 "tasks"
               ]
             }
@@ -234,7 +447,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"Finish README\",\r\n  \"status\": \"done\"\r\n}",
+              "raw": "{\r\n  \"title\": \"First Task Updated\",\r\n  \"description\": \"Updated task description\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"high\",\r\n  \"due_date\": \"2026-08-15\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -242,7 +455,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/tasks/6a6117a0f7084b1c024e7a23",
+              "raw": "http://localhost:3000/api/tasks/6a637ef9dbbb3b39b989d89d",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -251,7 +464,7 @@
               "path": [
                 "api",
                 "tasks",
-                "6a6117a0f7084b1c024e7a23"
+                "6a637ef9dbbb3b39b989d89d"
               ]
             }
           },
@@ -263,7 +476,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/projects/6a6112c3f7084b1c024e79f3/tasks",
+              "raw": "http://localhost:3000/api/projects/6a637d7734639dd28c654007/tasks",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -272,7 +485,7 @@
               "path": [
                 "api",
                 "projects",
-                "6a6112c3f7084b1c024e79f3",
+                "6a637d7734639dd28c654007",
                 "tasks"
               ]
             }
@@ -285,7 +498,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/tasks/6a611b3af92888f9fcd1b4ab",
+              "raw": "http://localhost:3000/api/tasks/6a637ef9dbbb3b39b989d89d",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -294,7 +507,7 @@
               "path": [
                 "api",
                 "tasks",
-                "6a611b3af92888f9fcd1b4ab"
+                "6a637ef9dbbb3b39b989d89d"
               ]
             }
           },
@@ -306,7 +519,7 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:3000/api/tasks/6a61179ff7084b1c024e7a1d",
+              "raw": "http://localhost:3000/api/tasks/6a637ef9dbbb3b39b989d89d",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -315,7 +528,7 @@
               "path": [
                 "api",
                 "tasks",
-                "6a61179ff7084b1c024e7a1d"
+                "6a637ef9dbbb3b39b989d89d"
               ]
             }
           },
@@ -778,6 +991,502 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Business Rules & Validation section testing",
+      "item": [
+        {
+          "name": "A task must belong to exactly one project",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Task with invalid project\",\r\n    \"description\": \"Testing foreign key validation\",\r\n    \"priority\": \"high\",\r\n    \"status\": \"todo\",\r\n    \"due_date\": \"2026-08-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects/6a638b5a536c0d69945c5d26/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "6a638b5a536c0d69945c5d26",
+                "tasks"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task creation with valid project",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Business Rules Test Task\",\r\n    \"description\": \"Testing task creation\",\r\n    \"priority\": \"medium\",\r\n    \"status\": \"todo\",\r\n    \"due_date\": \"2026-08-10\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects/6a638b5a536c0d69945c5d26/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "6a638b5a536c0d69945c5d26",
+                "tasks"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Due date cannot be in the past",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Past Due Date Test\",\r\n    \"description\":\"Should fail\",\r\n    \"priority\":\"high\",\r\n    \"status\":\"todo\",\r\n    \"due_date\":\"2024-01-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects/6a638b5a536c0d69945c5d26/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "6a638b5a536c0d69945c5d26",
+                "tasks"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Due date update cannot be in the past",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"due_date\": \"2025-01-01\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/6a638b8e536c0d69945c5d2a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "6a638b8e536c0d69945c5d2a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Status transitions allowed in any direction",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"done\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/6a638b8e536c0d69945c5d2a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "6a638b8e536c0d69945c5d2a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Todo transition handled right",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"completed\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/6a6117a0f7084b1c024e7a23",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "6a6117a0f7084b1c024e7a23"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Duplicate project names rejected",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Task Management App19\",\r\n  \"description\": \"Backend internship project\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Project ID should not return 500",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/projects/123",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "123"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Non-existing Project ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/projects/111111111111111111111111",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "111111111111111111111111"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Task ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/123",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "123"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "creat test project",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Cascade Delete Test Project4\",\r\n  \"description\": \"Testing cascade delete\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "creat task in the project",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Task that should be deleted2\",\r\n  \"description\": \"Testing cascade delete\",\r\n  \"status\": \"todo\",\r\n  \"priority\": \"medium\",\r\n  \"due_date\": \"2026-08-20\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/projects/6a638db4536c0d69945c5d47/tasks",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "6a638db4536c0d69945c5d47",
+                "tasks"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete  test project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/6a63904a6ea00eb131445898",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "6a63904a6ea00eb131445898"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify task was deleted",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/projects/6a63904a6ea00eb131445898",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "projects",
+                "6a63904a6ea00eb131445898"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task cannot change project_id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"project_id\": \"111111111111111111111111\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/tasks/6a61fff8baab512323e579d9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "tasks",
+                "6a61fff8baab512323e579d9"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Farah5\",\r\n  \"email\": \"farah5@test.com\",\r\n  \"password\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"farah5aa@test.com\",\r\n  \"password\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
-  ]
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjM3MjljMzc3ODdkZThjY2FlZDcxMyIsImlhdCI6MTc4NDkwMjMwMCwiZXhwIjoxNzg1NTA3MTAwfQ.rPVTb-Vx7sHzl5Pv7aTN5x8VrWhGiWhi6BtqOHnlwRM",
+        "type": "string"
+      }
+    ]
+  }
 }

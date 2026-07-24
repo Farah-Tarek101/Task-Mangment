@@ -15,6 +15,8 @@ export async function authenticate(
   }
 
   try {
+  console.log("VERIFY SECRET:", process.env.JWT_SECRET);
+  console.log("TOKEN:", token);
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET!

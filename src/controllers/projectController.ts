@@ -2,6 +2,7 @@ import asyncHandler from '../middleware/asyncHandler';
 import * as projectService from '../services/projectService';
 
 export const createProject = asyncHandler(async (req, res) => {
+  
   const project = await projectService.createProject(
     req.body,
     req.user!._id.toString()
@@ -11,6 +12,7 @@ export const createProject = asyncHandler(async (req, res) => {
 });
 
 export const listProjects = asyncHandler(async (req, res) => {
+  
   const result = await projectService.listProjects(
     req.query,
     req.user!._id.toString()
