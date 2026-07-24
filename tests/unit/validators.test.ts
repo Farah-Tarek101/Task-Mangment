@@ -1,11 +1,11 @@
-import {
-  validateTaskCreate,
-  validateTaskUpdate,
-  validateStatusTransition,
-  validateProjectCreate,
-} from '../../src/validators';
 import { isDueDateValid, startOfToday } from '../../src/utils/helpers';
 import logger from '../../src/utils/logger';
+import {
+  validateProjectCreate,
+  validateStatusTransition,
+  validateTaskCreate,
+  validateTaskUpdate,
+} from '../../src/validators';
 
 describe('Task Validation', () => {
   describe('validateTaskCreate', () => {
@@ -79,7 +79,7 @@ describe('Task Validation', () => {
 
   describe('validateStatusTransition', () => {
     it('logs unusual done to todo transition', () => {
-      const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+      const warnSpy = jest.spyOn(logger, "warn").mockImplementation(() => logger);
 
       validateStatusTransition('done', 'todo');
 
@@ -91,7 +91,7 @@ describe('Task Validation', () => {
     });
 
     it('does not log normal transitions', () => {
-      const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+      const warnSpy = jest.spyOn(logger, "warn").mockImplementation(() => logger);
 
       validateStatusTransition('todo', 'in_progress');
 

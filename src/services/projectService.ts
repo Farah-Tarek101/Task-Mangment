@@ -144,13 +144,14 @@ export async function deleteProject(
   id: string,
   userId: string
 ) {
+
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid project id', 400);
   }
 
   const project = await Project.findOne({
     _id: id,
-    user_id:userId,
+    user_id: userId,
     deleted_at: null,
   });
 
@@ -158,18 +159,38 @@ export async function deleteProject(
     throw new AppError('Project not found', 404);
   }
 
-  await Task.updateMany(
-{
-  project_id: id,
-  user_id: userId,
-  deleted_at: null,
-},
-{
-  deleted_at: new Date(),
-}
-);
 
-  return { message: 'Project and associated tasks deleted successfully' };
+  const deleteDate = new Date();
+
+
+  // soft delete project
+  await Project.updateOne(
+    {
+      _id: id,
+      user_id: userId,
+    },
+    {
+      deleted_at: deleteDate,
+    }
+  );
+
+
+  // soft delete all tasks inside project
+  await Task.updateMany(
+    {
+      project_id: id,
+      user_id: userId,
+      deleted_at: null,
+    },
+    {
+      deleted_at: deleteDate,
+    }
+  );
+
+
+  return {
+    message: 'Project and associated tasks deleted successfully'
+  };
 }
 
 export async function assertProjectExists(
