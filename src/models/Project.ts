@@ -1,6 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface IProject extends Document {
+  user_id: Types.ObjectId;   
   name: string;
   description: string | null;
   created_at: Date;
@@ -10,6 +11,12 @@ export interface IProject extends Document {
 
 const projectSchema = new Schema<IProject>(
   {
+      user_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true,
+  },
     name: {
       type: String,
       required: [true, 'Project name is required'],
@@ -41,7 +48,7 @@ const projectSchema = new Schema<IProject>(
   }
 );
 
-projectSchema.index({ name: 1 }, { unique: true });
+projectSchema.index({ user_id: 1, name: 1 }, { unique: true });
 projectSchema.index({ created_at: -1 });
 projectSchema.index({ deleted_at: 1 });
 

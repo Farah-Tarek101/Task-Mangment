@@ -5,36 +5,57 @@ import { AppError } from '../utils/AppError';
 import { buildPaginatedResponse, isValidObjectId, parsePagination } from '../utils/helpers';
 import { validateProjectCreate, validateProjectUpdate } from '../validators';
 
-export async function createProject(body: ProjectInput): Promise<ProjectResponse> {
+export async function createProject(
+  body: ProjectInput,
+  userId: string
+): Promise<ProjectResponse> {
+
   const data = validateProjectCreate(body);
 
   try {
-    const project = await Project.create(data);
+
+    const project = await Project.create({
+      ...data,
+      user_id: userId,
+    });
+
     return project.toJSON() as ProjectResponse;
+
   } catch (error) {
+
     const mongoError = error as MongoError;
+
     if (mongoError.code === 11000) {
-      throw new AppError('A project with this name already exists', 409);
+      throw new AppError(
+        'A project with this name already exists',
+        409
+      );
     }
+
     throw error;
   }
 }
 
-export async function listProjects(query: TaskListQuery) {
+export async function listProjects(
+  query: TaskListQuery,
+  userId: string
+) {
   const pagination = parsePagination(query);
 
   const [projects, total] = await Promise.all([
     Project.find({
-      deleted_at: null,
-    })
+  user_id: userId,
+  deleted_at: null,
+  })
       .sort({ created_at: -1 })
       .skip(pagination.skip)
       .limit(pagination.limit)
       .lean(),
 
     Project.countDocuments({
-      deleted_at: null,
-    }),
+  user_id:userId,
+  deleted_at:null
+  })
   ]);
 
   const data: ProjectResponse[] = projects.map((p) => ({
@@ -48,15 +69,19 @@ export async function listProjects(query: TaskListQuery) {
   return buildPaginatedResponse(data, total, pagination);
 }
 
-export async function getProjectById(id: string): Promise<ProjectResponse> {
+export async function getProjectById(
+ id:string,
+ userId:string
+): Promise<ProjectResponse> {
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid project id', 400);
   }
 
   const project = await Project.findOne({
-    _id: id,
-    deleted_at: null,
-  }).lean();
+  _id: id,
+  user_id: userId,
+  deleted_at: null,
+}).lean();
 
   if (!project) {
     throw new AppError('Project not found', 404);
@@ -71,7 +96,10 @@ export async function getProjectById(id: string): Promise<ProjectResponse> {
   };
 }
 
-export async function updateProject(id: string, body: ProjectInput): Promise<ProjectResponse> {
+export async function updateProject(
+id:string,body:ProjectInput,
+userId:string
+): Promise<ProjectResponse> {
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid project id', 400);
   }
@@ -81,9 +109,10 @@ export async function updateProject(id: string, body: ProjectInput): Promise<Pro
   try {
     const project = await Project.findOneAndUpdate(
   {
-    _id: id,
-    deleted_at: null,
-  },
+_id:id,
+user_id:userId,
+deleted_at:null
+},
   updates,
   {
     new: true,
@@ -111,13 +140,17 @@ export async function updateProject(id: string, body: ProjectInput): Promise<Pro
   }
 }
 
-export async function deleteProject(id: string) {
+export async function deleteProject(
+  id: string,
+  userId: string
+) {
   if (!isValidObjectId(id)) {
     throw new AppError('Invalid project id', 400);
   }
 
   const project = await Project.findOne({
     _id: id,
+    user_id:userId,
     deleted_at: null,
   });
 
@@ -125,33 +158,29 @@ export async function deleteProject(id: string) {
     throw new AppError('Project not found', 404);
   }
 
- 
   await Task.updateMany(
-    { 
-      project_id: id,
-      deleted_at: null
-    },
-    { 
-      deleted_at: new Date() 
-    }
-  );
-  await Project.findByIdAndUpdate(
-    id,
-    { 
-      deleted_at: new Date() 
-    }
-  );
+{
+  project_id: id,
+  user_id: userId,
+  deleted_at: null,
+},
+{
+  deleted_at: new Date(),
+}
+);
 
   return { message: 'Project and associated tasks deleted successfully' };
 }
 
-export async function assertProjectExists(projectId: string): Promise<void> {
+export async function assertProjectExists(
+  projectId: string,userId: string): Promise<void>  {
   if (!isValidObjectId(projectId)) {
     throw new AppError('Invalid project id', 400);
   }
 
   const exists = await Project.exists({
     _id: projectId,
+    user_id:userId,
     deleted_at: null,
   });
   if (!exists) {

@@ -1,7 +1,8 @@
 import express, { Express } from 'express';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import projectRoutes from './routes/projectRoutes';
 import taskRoutes from './routes/taskRoutes';
-import { notFoundHandler, errorHandler } from './middleware/errorHandler';
+import authRoutes from "./routes/authRoutes";
 
 export function createApp(): Express {
   const app = express();
@@ -14,6 +15,7 @@ export function createApp(): Express {
 
   app.use('/api/projects', projectRoutes);
   app.use('/api/tasks', taskRoutes);
+app.use("/api/auth", authRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

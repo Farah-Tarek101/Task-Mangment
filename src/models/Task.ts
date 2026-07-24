@@ -3,6 +3,7 @@ import { TaskPriority, TaskStatus } from '../types';
 import { TASK_PRIORITIES, TASK_STATUSES } from '../utils/helpers';
 
 export interface ITask extends Document {
+  user_id: Types.ObjectId;   // ADD THIS
   project_id: Types.ObjectId;
   title: string;
   description: string | null;
@@ -16,6 +17,12 @@ export interface ITask extends Document {
 
 const taskSchema = new Schema<ITask>(
   {
+    user_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true,
+  },
     project_id: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
@@ -72,7 +79,9 @@ const taskSchema = new Schema<ITask>(
         }
       ) {
         ret.id = ret._id!.toString();
-        ret.project_id = ret.project_id.toString();
+        if (ret.project_id) {
+            if (ret.project_id) {
+          ret.project_id = ret.project_id.toString();}}
         delete ret._id;
         delete ret.__v;
         return ret;
