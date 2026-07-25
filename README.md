@@ -277,7 +277,16 @@ docker-compose down -v
 ```
 
 ---
+# Architecture
 
+The application follows a layered architecture:
+
+- **Routes** define API endpoints.
+- **Controllers** handle HTTP requests and responses.
+- **Services** contain the business logic.
+- **Models** define MongoDB schemas using Mongoose.
+- **Middleware** handles authentication and error handling.
+- **Validators** validate incoming requests.
 # API Documentation
 
 Base URL:
