@@ -287,6 +287,8 @@ The application follows a layered architecture:
 - **Models** define MongoDB schemas using Mongoose.
 - **Middleware** handles authentication and error handling.
 - **Validators** validate incoming requests.
+  ---
+  
 # API Documentation
 
 Base URL:
