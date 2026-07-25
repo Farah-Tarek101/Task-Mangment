@@ -533,6 +533,8 @@ tests/
 └── integration/
 
 migrations/
+seed/
+└── seed.ts
 
 images/
 ├── addnewproject.png
