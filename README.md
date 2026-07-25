@@ -545,6 +545,8 @@ images/
 ├── viewallprojects.png
 └── viewtasksofaproject.png
 
+.env.example
+.gitignore
 Dockerfile
 docker-compose.yml
 package.json
