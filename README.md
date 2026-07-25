@@ -58,11 +58,11 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 
 ## Additional Features
 
-- MongoDB migrations using migrate-mongo
-- Database seed script
-- Docker and Docker Compose support
-- Soft delete functionality
-- Unit and integration tests
+- MongoDB migrations using migrate-mongo to manage database changes.
+- Seed script to create sample users, projects, and tasks.
+- Docker Compose setup for running API and MongoDB together.
+- Soft delete support using deleted_at timestamps.
+- Automated unit and integration tests using Jest and Supertest.
 
 ---
 
