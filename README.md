@@ -377,7 +377,6 @@ The returned JWT token must be added to protected requests:
 ```
 Authorization: Bearer JWT_TOKEN
 ```
-
 ---
 
 # Projects API
@@ -526,10 +525,9 @@ Deleting a project also deletes all related tasks.
 
 ---
 
-## Create Task
+# Create Task
 
 ### Request
-
 
 ```
 POST /api/projects/:projectId/tasks
