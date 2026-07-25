@@ -80,62 +80,7 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 
 ---
 
-# Database Design
-
-The application uses MongoDB with Mongoose for data modeling.
-
-## User
-
-Stores authentication information and owns projects.
-
-Fields:
-- name
-- email
-- password
-- timestamps
-
-
-## Project
-
-Represents a user's project containing multiple tasks.
-
-Fields:
-- name
-- description
-- user_id
-- created_at
-- updated_at
-- deleted_at
-
-
-## Task
-
-Represents a task that belongs to exactly one project.
-
-Fields:
-- project_id
-- title
-- description
-- status
-- priority
-- due_date
-- created_at
-- updated_at
-- deleted_at
-
-## Relationships
-
-User
-|
-└── Project
-|
-└── Task
-
-## Indexes
-
-- Unique index on project name per user
-- Text index on task title and description for search
-- Indexes used to improve filtering and querying performance
+# Requirements
 
 Before running the project, make sure you have:
 
@@ -329,6 +274,78 @@ http://localhost:3000/api
 
 ---
 
+## Register User
+
+### Request
+
+```
+POST /api/auth/register
+```
+
+### Body
+
+```json
+{
+  "name": "Farah5",
+  "email": "farah6@gmail.com",
+  "password": "12345678"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "User registered successfully",
+  "user": {
+    "id": "6a64dcaf72b73700c7ae412a",
+    "name": "Farah5",
+    "email": "farah6@gmail.com"
+  }
+}
+```
+
+---
+
+## Login User
+
+### Request
+
+```
+POST /api/auth/login
+```
+
+### Body
+
+```json
+{
+  "email": "farah5@gmail.com",
+  "password": "12345678"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Login successful",
+  "token": "JWT_TOKEN",
+  "user": {
+    "id": "6a64cd51219462dd10de01a2",
+    "name": "Farah5",
+    "email": "farah5@gmail.com"
+  }
+}
+```
+
+The returned JWT token must be added to protected requests:
+
+```
+Authorization: Bearer JWT_TOKEN
+```
+
+---
+
 # Projects API
 
 | Method | Endpoint | Description |
@@ -339,14 +356,126 @@ http://localhost:3000/api
 | PUT | `/projects/:id` | Update project |
 | DELETE | `/projects/:id` | Delete project and tasks |
 
-Example:
+---
+
+## Create Project
+
+### Request
+
+```
+POST /api/projects
+```
+
+### Headers
+
+```
+Authorization: Bearer JWT_TOKEN
+```
+
+### Body
 
 ```json
 {
-  "name": "Website Redesign",
-  "description": "Redesign company website"
+  "name": "Task Management App21",
+  "description": "Backend internship project"
 }
 ```
+
+### Response
+
+```json
+{
+  "user_id": "6a63729c37787de8ccaed713",
+  "name": "Task Management App21",
+  "description": "Backend internship project",
+  "deleted_at": null,
+  "created_at": "2026-07-25T15:57:12.784Z",
+  "updated_at": "2026-07-25T15:57:12.784Z",
+  "id": "6a64dcd872b73700c7ae412c"
+}
+```
+
+---
+
+## Get All Projects
+
+### Request
+
+```
+GET /api/projects
+```
+
+### Headers
+
+```
+Authorization: Bearer JWT_TOKEN
+```
+
+### Response
+
+```json
+[
+  {
+    "id": "6a64dcd872b73700c7ae412c",
+    "name": "Task Management App21",
+    "description": "Backend internship project",
+    "created_at": "2026-07-25T15:57:12.784Z",
+    "updated_at": "2026-07-25T15:57:12.784Z"
+  }
+]
+```
+
+---
+
+## Update Project
+
+### Request
+
+```
+PUT /api/projects/:id
+```
+
+### Body
+
+```json
+{
+  "name": "Updated Task Management App",
+  "description": "Updated backend project"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Project updated successfully",
+  "project": {
+    "id": "6a64dcd872b73700c7ae412c",
+    "name": "Updated Task Management App",
+    "description": "Updated backend project"
+  }
+}
+```
+
+---
+
+## Delete Project
+
+### Request
+
+```
+DELETE /api/projects/:id
+```
+
+### Response
+
+```json
+{
+  "message": "Project deleted successfully"
+}
+```
+
+Deleting a project also deletes all related tasks.
 
 ---
 
@@ -355,13 +484,23 @@ Example:
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/tasks` | Get all tasks |
-| GET | `/projects/:projectId/tasks` | Get project tasks |
+| GET | `/projects/:projectId/tasks` | Get tasks of a project |
 | POST | `/projects/:projectId/tasks` | Create task |
 | GET | `/tasks/:id` | Get task |
 | PUT | `/tasks/:id` | Update task |
 | DELETE | `/tasks/:id` | Delete task |
 
-Example:
+---
+
+## Create Task
+
+### Request
+
+```
+POST /api/projects/:projectId/tasks
+```
+
+### Body
 
 ```json
 {
@@ -373,7 +512,101 @@ Example:
 }
 ```
 
+### Response
+
+```json
+{
+  "id": "77a123456789",
+  "project_id": "6a64dcd872b73700c7ae412c",
+  "title": "Implement homepage",
+  "description": "Build responsive homepage",
+  "status": "todo",
+  "priority": "high",
+  "due_date": "2026-08-01",
+  "created_at": "2026-07-25T15:00:00Z"
+}
+```
+
 ---
+
+# Filtering, Sorting and Pagination Examples
+
+## Filter Tasks
+
+Request:
+
+```
+GET /api/tasks?status=todo&priority=high
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "title": "Fix API bugs",
+      "status": "todo",
+      "priority": "high"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 1
+  }
+}
+```
+
+---
+
+## Search Tasks
+
+Request:
+
+```
+GET /api/tasks?q=homepage
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "title": "Implement homepage",
+      "description": "Build responsive homepage"
+    }
+  ]
+}
+```
+
+---
+
+## Sort Tasks
+
+Request:
+
+```
+GET /api/tasks?sort=due_date&order=asc
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "title": "Database migration",
+      "due_date": "2026-07-30"
+    },
+    {
+      "title": "Frontend design",
+      "due_date": "2026-08-01"
+    }
+  ]
+}
+```
 
 # Filtering, Sorting and Pagination
 
@@ -480,7 +713,7 @@ Authorization: Bearer YOUR_JWT_TOKEN
 
 # Postman Screenshots
 
-Screenshots showing the API testing workflow are included in the `images` folder.
+Screenshots showing part of the API testing workflow are included in the `images` folder.
 
 ## Authentication
 
@@ -510,7 +743,7 @@ Screenshots showing the API testing workflow are included in the `images` folder
 
 ### Delete Project
 
-![Delete Project](images/deleteprojectbyid.png)
+![Delete Project](images/deleteprojectbyid%20.png)
 
 ---
 
@@ -588,7 +821,8 @@ tests/
 └── integration/
 
 migrations/
-seed/
+
+scripts/
 └── seed.ts
 
 images/
@@ -601,6 +835,8 @@ images/
 ├── register.png
 ├── viewallprojects.png
 └── viewtasksofaproject.png
+
+Task Mangment.postman_collection.json
 
 .env.example
 .gitignore
