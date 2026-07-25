@@ -2,7 +2,7 @@
 
 A Task Management REST API built with **Node.js**, **Express**, **TypeScript**, and **MongoDB**.
 
-This API allows users to manage projects and tasks with authentication, validation, filtering, sorting, pagination, searching, and automated testing.
+The API allows users to manage projects and tasks with JWT authentication, validation, filtering, sorting, pagination, searching, and automated testing.
 
 ---
 
@@ -40,15 +40,15 @@ This API allows users to manage projects and tasks with authentication, validati
 
 ## Task Management Features
 
-- Filtering:
+- Filtering by:
   - status
   - priority
   - due date range
 
-- Sorting:
+- Sorting by:
   - due_date
   - priority
-  - created_at
+  - created_date
 
 - Pagination with total count
 
@@ -92,7 +92,7 @@ Before running the project, make sure you have:
 
 # Installation
 
-## 1. Clone the repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/Farah-Tarek101/Task-Mangment.git
@@ -102,9 +102,7 @@ cd Task-Mangment
 
 ---
 
-## 2. Install dependencies
-
-Install all required packages:
+## 2. Install Dependencies
 
 ```bash
 npm install
@@ -112,7 +110,7 @@ npm install
 
 ---
 
-## 3. Configure environment variables
+## 3. Configure Environment Variables
 
 Create a `.env` file in the project root:
 
@@ -123,43 +121,48 @@ JWT_SECRET=my_task_management_secret
 NODE_ENV=development
 ```
 
-For testing, the project uses `.env.test` automatically.
+For testing:
 
-Example `.env.test`:
+Create `.env.test`
 
 ```env
 NODE_ENV=test
 JWT_SECRET=my_task_management_secret
 ```
 
+Example `.env.example`:
+
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/task_management
+JWT_SECRET=your_secret_here
+NODE_ENV=development
+```
+
 ---
 
-## 4. Start MongoDB
+# Database Setup
 
-Make sure MongoDB is running before starting the application.
-
-### Option 1: Local MongoDB
-
-Use:
+## Option 1: Local MongoDB
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/task_management
 ```
 
-### Option 2: Using Docker
+---
 
-Run MongoDB container:
+## Option 2: Docker MongoDB
 
 ```bash
 docker run -d \
-  -p 27017:27017 \
-  --name task-management-mongo \
-  mongo:7
+-p 27017:27017 \
+--name task-management-mongo \
+mongo:7
 ```
 
 ---
 
-## 5. Run Database Migrations
+# Database Migrations
 
 Apply migrations:
 
@@ -173,7 +176,7 @@ Check migration status:
 npm run migrate:status
 ```
 
-Rollback the latest migration:
+Rollback latest migration:
 
 ```bash
 npm run migrate:down
@@ -181,7 +184,7 @@ npm run migrate:down
 
 ---
 
-## 6. Seed Database (Optional)
+# Seed Database (Optional)
 
 Create sample user, projects, and tasks:
 
@@ -191,33 +194,27 @@ npm run seed
 
 ---
 
-## 7. Run the Application
+# Running the Application
 
-### Development mode
-
-Runs the server with automatic reload:
+## Development Mode
 
 ```bash
 npm run dev
 ```
 
-### Build TypeScript
-
-Compile TypeScript:
+## Build TypeScript
 
 ```bash
 npm run build
 ```
 
-### Production mode
-
-Start the compiled application:
+## Production Mode
 
 ```bash
 npm start
 ```
 
-The API will be available at:
+The API will run on:
 
 ```
 http://localhost:3000
@@ -225,7 +222,40 @@ http://localhost:3000
 
 ---
 
-# API Overview
+# Docker Support
+
+Run API and MongoDB using Docker Compose:
+
+```bash
+docker-compose up --build
+```
+
+This starts:
+
+- MongoDB container
+- Node.js API container
+
+API URL:
+
+```
+http://localhost:3000
+```
+
+Stop containers:
+
+```bash
+docker-compose down
+```
+
+Remove containers and volumes:
+
+```bash
+docker-compose down -v
+```
+
+---
+
+# API Documentation
 
 Base URL:
 
@@ -235,26 +265,26 @@ http://localhost:3000/api
 
 ---
 
-## Authentication API
+# Authentication API
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | POST | `/auth/register` | Register a new user |
 | POST | `/auth/login` | Login and receive JWT token |
 
 ---
 
-## Projects API
+# Projects API
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | GET | `/projects` | Get all projects |
-| POST | `/projects` | Create a project |
+| POST | `/projects` | Create project |
 | GET | `/projects/:id` | Get project by ID |
 | PUT | `/projects/:id` | Update project |
-| DELETE | `/projects/:id` | Delete project and related tasks |
+| DELETE | `/projects/:id` | Delete project and tasks |
 
-Example create project:
+Example:
 
 ```json
 {
@@ -265,18 +295,18 @@ Example create project:
 
 ---
 
-## Tasks API
+# Tasks API
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | GET | `/tasks` | Get all tasks |
-| GET | `/projects/:projectId/tasks` | Get tasks for a project |
-| POST | `/projects/:projectId/tasks` | Create a task |
-| GET | `/tasks/:id` | Get task by ID |
+| GET | `/projects/:projectId/tasks` | Get project tasks |
+| POST | `/projects/:projectId/tasks` | Create task |
+| GET | `/tasks/:id` | Get task |
 | PUT | `/tasks/:id` | Update task |
 | DELETE | `/tasks/:id` | Delete task |
 
-Example create task:
+Example:
 
 ```json
 {
@@ -290,7 +320,7 @@ Example create task:
 
 ---
 
-## Task Filtering, Sorting and Pagination
+# Filtering, Sorting and Pagination
 
 Example:
 
@@ -298,19 +328,190 @@ Example:
 GET /api/tasks?status=todo&priority=high&page=1&limit=10
 ```
 
-Supported query parameters:
+Supported parameters:
 
 | Parameter | Description |
-|-----------|-------------|
-| status | Filter by task status |
-| priority | Filter by task priority |
-| due_date_from | Tasks after this date |
-| due_date_to | Tasks before this date |
-| sort_by | due_date, priority, created_at |
-| sort_order | asc or desc |
+|---|---|
+| status | Filter by status |
+| priority | Filter by priority |
+| due_date_from | Start date |
+| due_date_to | End date |
+| sort | due_date, priority, created_at |
+| order | asc, desc |
 | page | Page number |
 | limit | Number of results |
 | q | Search title and description |
+
+---
+
+# Postman Collection
+
+A Postman collection is included for testing all API endpoints.
+
+File:
+
+```
+Task Mangment.postman_collection.json
+```
+
+The collection includes:
+
+## Authentication
+
+- Register
+- Login
+- JWT authentication
+
+## Projects
+
+- Create project
+- View projects
+- View project by ID
+- Update project
+- Delete project
+
+## Tasks
+
+- Create task
+- View project tasks
+- Update task
+- Delete task
+
+## Advanced Testing
+
+- Filtering
+- Sorting
+- Pagination
+- Search
+- Validation scenarios
+- Business rules testing
+
+
+## Using Postman
+
+1. Start the API:
+
+```bash
+npm run dev
+```
+
+2. Import:
+
+```
+Task Mangment.postman_collection.json
+```
+
+3. Register:
+
+```
+POST /api/auth/register
+```
+
+4. Login:
+
+```
+POST /api/auth/login
+```
+
+5. Copy JWT token.
+
+6. Add token:
+
+```
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+---
+
+# Postman Screenshots
+
+Screenshots showing the API testing workflow are included in the `images` folder.
+
+## Authentication
+
+### Register User
+
+![Register](images/register.png)
+
+### Login User
+
+![Login](images/login.png)
+
+---
+
+## Projects
+
+### Create Project
+
+![Create Project](images/addnewproject.png)
+
+### View All Projects
+
+![View Projects](images/viewallprojects.png)
+
+### Update Project
+
+![Edit Project](images/editprojecctbyid.png)
+
+### Delete Project
+
+![Delete Project](images/deleteprojectbyid.png)
+
+---
+
+## Tasks
+
+### Create Task
+
+![Create Task](images/creattask.png)
+
+### View Tasks Of A Project
+
+![View Tasks](images/viewtasksofaproject.png)
+
+---
+
+## Sorting
+
+### Sort By Due Date Ascending
+
+![Sorting](images/Sortbyduedateascending.png)
+
+---
+
+# Running Tests
+
+Run all tests:
+
+```bash
+npm test
+```
+
+Run unit tests:
+
+```bash
+npm run test:unit
+```
+
+Run integration tests:
+
+```bash
+npm run test:integration
+```
+
+Tests use an in-memory MongoDB database.
+
+Coverage includes:
+
+- Project lifecycle
+- Task lifecycle
+- Filtering
+- Sorting
+- Search
+- Pagination
+- Validation
+- Authentication
+- Error handling
 
 ---
 
@@ -333,137 +534,21 @@ tests/
 
 migrations/
 
+images/
+├── addnewproject.png
+├── creattask.png
+├── deleteprojectbyid.png
+├── editprojecctbyid.png
+├── login.png
+├── Sortbyduedateascending.png
+├── register.png
+├── viewallprojects.png
+└── viewtasksofaproject.png
+
 Dockerfile
 docker-compose.yml
 package.json
 README.md
-```
-
----
-
-# Running Tests
-
-The project includes unit and integration tests.
-
-Run all tests:
-
-```bash
-npm test
-```
-
-Run unit tests:
-
-```bash
-npm run test:unit
-```
-
-Run integration tests:
-
-```bash
-npm run test:integration
-```
-
-Tests use an in-memory MongoDB database, so no external test database is required.
-
-Current tests cover:
-
-- Project creation and deletion flow
-- Task lifecycle flow
-- Filtering
-- Search
-- Pagination
-- Validation rules
-- Authentication
-- Error handling
-
----
-
-# Docker Support
-
-The project supports running the API and MongoDB using Docker Compose.
-
-Build and start containers:
-
-```bash
-docker-compose up --build
-```
-
-This starts:
-
-- MongoDB container
-- Node.js API container
-
-The API will be available at:
-
-```
-http://localhost:3000
-```
-
----
-
-# Postman Collection
-
-A Postman collection is included for testing all API endpoints.
-
-The collection covers:
-
-## Authentication
-
-- Register user
-- Login user
-- JWT authentication
-
-## Projects
-
-- Create project
-- Get all projects
-- Get project by ID
-- Update project
-- Delete project
-
-## Tasks
-
-- Create task
-- Get tasks by project
-- Get task by ID
-- Update task
-- Delete task
-
-## Advanced Testing
-
-- Filtering
-- Sorting
-- Pagination
-- Search
-- Validation rules
-- Business rules testing
-
-Import the collection file:
-
-```
-Task Mangment.postman_collection.json
-```
-
-Before testing protected endpoints:
-
-1. Register a user:
-
-```
-POST /api/auth/register
-```
-
-2. Login:
-
-```
-POST /api/auth/login
-```
-
-3. Copy the returned JWT token.
-
-4. Add it to protected requests:
-
-```
-Authorization: Bearer <your_token>
 ```
 
 ---
