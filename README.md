@@ -79,25 +79,38 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 - Docker
 
 ---
+
 # Database Design
 
-The application uses MongoDB with Mongoose models.
+The application uses MongoDB with Mongoose for data modeling.
 
 ## User
-Stores authentication information.
+
+Stores authentication information and owns projects.
+
+Fields:
+- name
+- email
+- password
+- timestamps
+
 
 ## Project
-Represents a collection of tasks owned by a user.
+
+Represents a user's project containing multiple tasks.
 
 Fields:
 - name
 - description
 - user_id
-- timestamps
+- created_at
+- updated_at
 - deleted_at
 
+
 ## Task
-Represents work items belonging to projects.
+
+Represents a task that belongs to exactly one project.
 
 Fields:
 - project_id
@@ -106,21 +119,23 @@ Fields:
 - status
 - priority
 - due_date
-- timestamps
+- created_at
+- updated_at
 - deleted_at
 
-Relationships:
+## Relationships
 
 User
- |
- └── Projects
-        |
-        └── Tasks
+|
+└── Project
+|
+└── Task
 
-Indexes:
-- Unique project name per user
+## Indexes
+
+- Unique index on project name per user
 - Text index on task title and description for search
-# Requirements
+- Indexes used to improve filtering and querying performance
 
 Before running the project, make sure you have:
 
