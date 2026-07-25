@@ -96,7 +96,23 @@ Before running the project, make sure you have:
 - npm
 
 ---
+## Quick Start
 
+```bash
+git clone https://github.com/Farah-Tarek101/Task-Mangment.git
+cd Task-Mangment
+npm install
+cp .env.example .env
+npm run migrate:up
+npm run seed
+npm run dev
+```
+
+API:
+
+```
+http://localhost:3000/api
+```
 # Installation
 
 ## 1. Clone Repository
