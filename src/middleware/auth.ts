@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
 import { AppError } from "../utils/AppError";
 
 export async function authenticate(
@@ -15,21 +14,17 @@ export async function authenticate(
   }
 
   try {
-
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET!
     ) as { id: string };
 
-    const user = await User.findById(decoded.id);
-
-    if (!user) {
-      return next(new AppError("User not found", 404));
-    }
-
-    req.user = user;
+    req.user = {
+      _id: decoded.id
+    } as any;
 
     next();
+
   } catch {
     next(new AppError("Invalid token", 401));
   }

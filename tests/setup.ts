@@ -3,10 +3,11 @@ import mongoose from 'mongoose';
 
 dotenv.config();
 
-// Use a test secret if one isn't already defined
-process.env.JWT_SECRET ??= 'test-secret';
+process.env.JWT_SECRET =
+  process.env.JWT_SECRET || 'my_task_management_secret';
 
 jest.setTimeout(60000);
+
 
 beforeAll(async () => {
   if (mongoose.connection.readyState === 0) {
@@ -14,18 +15,35 @@ beforeAll(async () => {
   }
 });
 
+
 afterEach(async () => {
   const collections = mongoose.connection.collections;
 
   for (const key of Object.keys(collections)) {
 
-    if (key !== "users") {
-      await collections[key].deleteMany({});
-    }
+    // Keep users because the token is created from this user
+    if (key === 'users') continue;
 
+    await collections[key].deleteMany({});
   }
 });
 
+
 afterAll(async () => {
-  await mongoose.disconnect();
+
+  // Remove test users
+  const collections = mongoose.connection.collections;
+
+  if (collections.users) {
+    await collections.users.deleteMany({});
+  }
+
+
+  // Close mongoose connection completely
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
+  }
+
+  await mongoose.connection.close();
+
 });

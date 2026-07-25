@@ -29,10 +29,10 @@ async function seed(): Promise<void> {
   );
 
   const user = await User.create({
-    email: 'test@example.com',
+    name: "Test User",
+    email: "test@example.com",
     password: hashedPassword,
-  });
-
+});
 
   logger.info(`Created user: ${user.email}`);
 

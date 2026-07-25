@@ -176,22 +176,15 @@ priority:'high'
 
 });
 
-
-
 it('filters status',async()=>{
-
 const res = await request(app)
 .get(`/api/projects/${projectId}/tasks?status=todo`)
 .set(auth())
 .expect(200);
-
-
 expect(res.body.pagination.total)
 .toBe(2);
 
 });
-
-
 
 it('filters priority',async()=>{
 

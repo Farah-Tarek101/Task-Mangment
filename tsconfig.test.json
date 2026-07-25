@@ -1,15 +1,23 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "rootDir": ".",
-        "types": [
-        "node",
-        "jest"
-        ]
-    },
-    "include": [
-        "src/**/*.ts",
-        "tests/**/*.ts",
-        "tests/**/*.d.ts"
+  "extends": "./tsconfig.json",
+
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": [
+      "node",
+      "jest"
     ]
+  },
+
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "tests/**/*.ts",
+    "tests/**/*.d.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

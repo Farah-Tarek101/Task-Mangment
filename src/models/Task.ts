@@ -100,3 +100,6 @@ taskSchema.index({ title: 'text', description: 'text' });
 taskSchema.index({ deleted_at: 1 });
 
 export default mongoose.model<ITask>('Task', taskSchema);
+
+
+

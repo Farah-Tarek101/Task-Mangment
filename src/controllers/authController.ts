@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { generateToken } from "../utils/jwt";
 
 export async function register(req: Request, res: Response) {
 const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -12,12 +12,7 @@ const user = await User.create({
     password: hashedPassword,
 });
 
-const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET!,
-    { expiresIn: "7d" }
-);
-
+const token = generateToken(user._id.toString());
 return res.status(201).json({
     token,
     user: {
@@ -50,11 +45,7 @@ if (!valid) {
     });
 }
 
-const token = jwt.sign(
-    { id: user._id },
-    process.env.JWT_SECRET!,
-    { expiresIn: "7d" }
-);
+const token = generateToken(user._id.toString());
 
 return res.status(200).json({
     token,

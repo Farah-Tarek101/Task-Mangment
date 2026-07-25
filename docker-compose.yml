@@ -21,6 +21,7 @@ services:
       MONGODB_URI: mongodb://mongodb:27017/task_management
       NODE_ENV: production
       PORT: 3000
+      JWT_SECRET: my_task_management_secret
     depends_on:
       mongodb:
         condition: service_healthy
