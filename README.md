@@ -79,7 +79,14 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 - Docker
 
 ---
+## Design Decisions
 
+- MongoDB was selected because tasks and projects have flexible structures while Mongoose provides schema validation.
+- Projects reference users through user_id to support authentication and data isolation.
+- Tasks reference projects through project_id to maintain ownership and relationships.
+- Indexes are added for faster searching and filtering.
+
+---
 # Requirements
 
 Before running the project, make sure you have:
@@ -496,10 +503,12 @@ Deleting a project also deletes all related tasks.
 
 ### Request
 
+
 ```
 POST /api/projects/:projectId/tasks
 ```
-
+### Headers
+Authorization: Bearer JWT_TOKEN
 ### Body
 
 ```json
@@ -528,26 +537,46 @@ POST /api/projects/:projectId/tasks
 ```
 
 ---
+# Filtering, Sorting and Pagination
 
-# Filtering, Sorting and Pagination Examples
+Tasks support filtering, sorting, searching, and pagination.
+
+## Supported Query Parameters
+
+| Parameter | Description |
+|---|---|
+| status | Filter by task status (`todo`, `in_progress`, `done`) |
+| priority | Filter by priority (`low`, `medium`, `high`) |
+| due_date_from | Filter tasks starting from a specific date |
+| due_date_to | Filter tasks until a specific date |
+| sort | Sort field (`due_date`, `priority`, `created_at`) |
+| order | Sort order (`asc`, `desc`) |
+| page | Page number |
+| limit | Number of results per page |
+| q | Search in task title and description |
+
+---
 
 ## Filter Tasks
 
-Request:
+### Request
 
-```
+```http
 GET /api/tasks?status=todo&priority=high
 ```
 
-Response:
+### Response
 
 ```json
 {
   "data": [
     {
+      "id": "77a123456789",
       "title": "Fix API bugs",
+      "description": "Resolve authentication issues",
       "status": "todo",
-      "priority": "high"
+      "priority": "high",
+      "due_date": "2026-08-01"
     }
   ],
   "pagination": {
@@ -562,18 +591,19 @@ Response:
 
 ## Search Tasks
 
-Request:
+### Request
 
-```
+```http
 GET /api/tasks?q=homepage
 ```
 
-Response:
+### Response
 
 ```json
 {
   "data": [
     {
+      "id": "77a123456789",
       "title": "Implement homepage",
       "description": "Build responsive homepage"
     }
@@ -585,13 +615,13 @@ Response:
 
 ## Sort Tasks
 
-Request:
+### Request
 
-```
+```http
 GET /api/tasks?sort=due_date&order=asc
 ```
 
-Response:
+### Response
 
 ```json
 {
@@ -608,27 +638,35 @@ Response:
 }
 ```
 
-# Filtering, Sorting and Pagination
+---
 
-Example:
+## Pagination Example
 
+### Request
+
+```http
+GET /api/tasks?page=1&limit=10
 ```
-GET /api/tasks?status=todo&priority=high&page=1&limit=10
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "77a123456789",
+      "title": "Implement homepage",
+      "status": "todo",
+      "priority": "high"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 1
+  }
+}
 ```
-
-Supported parameters:
-
-| Parameter | Description |
-|---|---|
-| status | Filter by status |
-| priority | Filter by priority |
-| due_date_from | Start date |
-| due_date_to | End date |
-| sort | due_date, priority, created_at |
-| order | asc, desc |
-| page | Page number |
-| limit | Number of results |
-| q | Search title and description |
 
 ---
 
