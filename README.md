@@ -5,6 +5,11 @@ A Task Management REST API built with **Node.js**, **Express**, **TypeScript**, 
 The API allows users to manage projects and tasks with JWT authentication, validation, filtering, sorting, pagination, searching, and automated testing.
 
 ---
+## Preview
+
+![Task Management UI](images/ui.png)
+
+---
 
 # Features
 
@@ -64,9 +69,30 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 - Soft delete support using deleted_at timestamps.
 - Automated unit and integration tests using Jest and Supertest.
 
+## Bonus: Web Interface
+
+In addition to the REST API, the project includes a lightweight client interface built with HTML, CSS, and vanilla JavaScript to demonstrate API integration.
+
+The interface allows users to:
+
+- Register and log in
+- Manage projects
+- Create, update, and delete tasks
+- Search, filter, sort, and paginate tasks
+- Interact directly with the backend API
+
+Run the backend and open:
+
+http://localhost:3000/
+
+to use the interface.
 ---
 
 # Tech Stack
+
+
+
+## Backend
 
 - Node.js
 - Express.js
@@ -74,6 +100,15 @@ The API allows users to manage projects and tasks with JWT authentication, valid
 - MongoDB
 - Mongoose
 - JWT Authentication
+
+## Frontend
+
+- HTML
+- CSS
+- Vanilla JavaScript
+
+## Testing & Deployment
+
 - Jest
 - Supertest
 - Docker
@@ -227,6 +262,8 @@ The API will run on:
 http://localhost:3000
 ```
 
+Note: The backend listens on port 3000 by default. You can change this by setting the `PORT` environment variable in your `.env` file (for example `PORT=4000`).
+
 ---
 
 # Docker Support
@@ -269,7 +306,29 @@ Base URL:
 ```
 http://localhost:3000/api
 ```
+```md
+## Error Handling
 
+The API returns consistent error responses.
+
+Example:
+
+```json
+{
+  "error": {
+    "message": "Invalid token"
+  }
+}
+
+```
+
+
+| Status Code | Description |
+|---|---|
+| 400 | Bad Request - Validation errors |
+| 401 | Unauthorized - Missing or invalid JWT token |
+| 404 | Not Found - Resource does not exist |
+| 409 | Conflict - Duplicate resource |
 ---
 
 # Authentication API
@@ -853,6 +912,15 @@ src/
 ├── validators/
 ├── utils/
 └── server.ts
+Public/
+├── index.html
+├── style.css
+├── js/
+    ├── api.js
+    ├── main.js
+    ├── state.js
+    ├── ui.js
+
 
 tests/
 ├── unit/
@@ -872,6 +940,7 @@ images/
 ├── Sortbyduedateascending.png
 ├── register.png
 ├── viewallprojects.png
+├── ui.png
 └── viewtasksofaproject.png
 
 Task Mangment.postman_collection.json

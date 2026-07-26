@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskCraft</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="app-frame">
+        <header class="app-header"></header>
+
+        <main class="main-content">
+          <section class="hero-card">
+            <h2>Manage work with style.</h2>
+            <p> Start organizing projects, tracking tasks, and staying on top of deadlines.</p>
+            <div class="hero-actions">
+              <button id="logoutButton" class="ghost-button hidden">Logout</button>
+            </div>
+          </section>
+
+          <section id="authSection" class="card auth-card">
+            <div class="auth-tabs">
+              <button id="loginTab" class="tab active" type="button">Login</button>
+              <button id="registerTab" class="tab" type="button">Register</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+              <label>
+                Email
+                <input type="email" name="email" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" required placeholder="••••••••" />
+              </label>
+              <button type="submit" class="primary-button">Sign In</button>
+            </form>
+
+            <form id="registerForm" class="auth-form hidden">
+              <label>
+                Name
+                <input type="text" name="name" required placeholder="Your name" />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" name="password" required placeholder="Create a password" />
+              </label>
+              <button type="submit" class="primary-button">Create Account</button>
+            </form>
+
+            <p class="hint">Build beautiful workflows with a modern, polished interface.</p>
+          </section>
+
+          <section id="appSection" class="hidden app-container">
+            <div class="page-tabs">
+              <button type="button" id="projectsTab" class="tab active">Projects</button>
+              <button type="button" id="tasksTab" class="tab">Tasks</button>
+            </div>
+
+            <div id="projectsPage" class="app-layout">
+              <aside class="panel project-panel">
+                <div class="panel-header">
+                  <div>
+                    <h3>Projects <span id="projectCount" class="count-badge">0</span></h3>
+                    <p class="subtle">Choose a project to manage tasks.</p>
+                  </div>
+                  <button id="refreshProjects" class="ghost-button">Refresh</button>
+                </div>
+
+                <form id="createProjectForm" class="card small-card">
+                  <h4>New project</h4>
+                  <label>
+                    Name
+                    <input type="text" name="name" required placeholder="Project name" />
+                  </label>
+                  <label>
+                    Description
+                    <input type="text" name="description" placeholder="Optional description" />
+                  </label>
+                  <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+                    <button type="submit" id="projectSubmitButton" class="secondary-button">Create project</button>
+                    <button type="button" id="cancelEditProject" class="ghost-button hidden">Cancel</button>
+                  </div>
+                </form>
+
+
+                <div id="projectList" class="list-group"></div>
+              </aside>
+            </div>
+
+            <div id="tasksPage" class="hidden app-layout">
+              <section class="panel task-panel">
+                <div class="panel-header">
+                  <div>
+                    <h3 id="taskViewTitle">Today’s tasks <span id="taskCount" class="count-badge">0</span></h3>
+                    <p class="subtle" id="taskViewSubtitle">Select a project to view its tasks.</p>
+                  </div>
+                  <div class="action-row">
+                    <button id="showAllTasks" class="ghost-button">All tasks</button>
+                  </div>
+                </div>
+
+                <form id="createTaskForm" class="card small-card">
+                  <h4>New task</h4>
+                  <label>
+                    Title
+                    <input type="text" name="title" required placeholder="Task title" />
+                  </label>
+                  <label>
+                    Details
+                    <input type="text" name="description" placeholder="Optional details" />
+                  </label>
+                  <div class="grid-two">
+                    <label>
+                      Status
+                      <select name="status">
+                        <option value="todo">To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="done">Done</option>
+                      </select>
+                    </label>
+                    <label>
+                      Priority
+                      <select name="priority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label>
+                    Due date
+                    <input type="date" name="due_date" />
+                  </label>
+                  <button type="submit" class="secondary-button">Add task</button>
+                </form>
+
+                <div class="card small-card search-card">
+                  <div class="search-card-header">
+                    <strong>Search tasks</strong>
+                    <div class="search-actions">
+                      <button type="button" id="applyFiltersButton" class="secondary-button small">Search</button>
+                      <button type="button" id="clearFiltersButton" class="ghost-button small">Clear</button>
+                    </div>
+                  </div>
+                  <p class="subtle search-note">Filter tasks by keyword, status, or priority to quickly find what matters.</p>
+                  <div class="grid-three">
+                    <label>
+                      Search
+                      <input id="taskSearch" type="search" placeholder="Search title or description" />
+                    </label>
+                    <label>
+                      Status
+                      <select id="statusFilter">
+                        <option value="">All statuses</option>
+                        <option value="todo">To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="done">Done</option>
+                      </select>
+                    </label>
+                    <label>
+                      Priority
+                      <select id="priorityFilter">
+                        <option value="">All priorities</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="search-controls" style="display:flex;gap:12px;align-items:center;margin-top:12px;">
+                    <label>
+                      Sort by
+                      <select id="sortBy">
+                        <option value="created_at">Created</option>
+                        <option value="due_date">Due date</option>
+                        <option value="priority">Priority</option>
+                      </select>
+                    </label>
+                    <label>
+                      Order
+                      <select id="sortOrder">
+                        <option value="desc">Desc</option>
+                        <option value="asc">Asc</option>
+                      </select>
+                    </label>
+                    <label>
+                      Per page
+                      <select id="pageLimit">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="taskList" class="list-group"></div>
+                <div id="taskPagination" class="pagination" style="display:flex;gap:12px;align-items:center;justify-content:center;padding:16px 0;">
+                  <button id="prevPage" class="ghost-button small">Prev</button>
+                  <div id="pageIndicator" class="subtle">Page 1 of 1</div>
+                  <button id="nextPage" class="ghost-button small">Next</button>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <div id="toast" class="toast hidden"></div>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js?v=2"></script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 import { FilterQuery } from 'mongoose';
-import { TaskPriority, TaskListQuery, PaginatedResponse, PaginationMeta } from '../types';
 import { ITask } from '../models/Task';
+import { PaginatedResponse, PaginationMeta, TaskListQuery, TaskPriority } from '../types';
 
 export const TASK_STATUSES = ['todo', 'in_progress', 'done'] as const;
 export const TASK_PRIORITIES = ['low', 'medium', 'high'] as const;
@@ -61,14 +61,30 @@ export function startOfToday(): Date {
   return today;
 }
 
-export function isDueDateValid(dueDate: string | Date | null | undefined): boolean {
-  if (dueDate === undefined || dueDate === null || dueDate === '') {
-    return true;
+export function parseDateValue(value: string | Date | null | undefined): Date | null {
+  if (value === undefined || value === null || value === '') {
+    return null;
   }
 
-  const parsed = new Date(dueDate);
-  if (Number.isNaN(parsed.getTime())) {
-    return false;
+  if (typeof value === 'string') {
+    const dateOnly = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/;
+    const match = dateOnly.exec(value);
+    if (match) {
+      const year = Number(match[1]);
+      const month = Number(match[2]) - 1;
+      const day = Number(match[3]);
+      return new Date(year, month, day);
+    }
+  }
+
+  const parsed = new Date(value as string | Date);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function isDueDateValid(dueDate: string | Date | null | undefined): boolean {
+  const parsed = parseDateValue(dueDate);
+  if (parsed === null) {
+    return true;
   }
 
   return parsed >= startOfToday();

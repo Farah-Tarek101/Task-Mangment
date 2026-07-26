@@ -25,8 +25,11 @@ try {
     password: hashedPassword
     });
 
+    const token = generateToken(user._id.toString());
+
     res.status(201).json({
     message: "User registered successfully",
+    token,
     user: {
         id: user._id,
         name: user.name,

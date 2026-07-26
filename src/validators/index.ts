@@ -1,17 +1,18 @@
+import {
+    ProjectInput,
+    TaskInput,
+    TaskListQuery,
+    TaskStatus,
+    ValidationErrorDetail,
+} from '../types';
 import { AppError } from '../utils/AppError';
 import {
-  TASK_STATUSES,
-  TASK_PRIORITIES,
-  isDueDateValid,
+    TASK_PRIORITIES,
+    TASK_STATUSES,
+    isDueDateValid,
+    parseDateValue,
 } from '../utils/helpers';
 import logger from '../utils/logger';
-import {
-  ProjectInput,
-  TaskInput,
-  TaskListQuery,
-  TaskStatus,
-  ValidationErrorDetail,
-} from '../types';
 
 export function validateProjectCreate(body: ProjectInput) {
   const errors: ValidationErrorDetail[] = [];
@@ -119,7 +120,7 @@ export function validateTaskCreate(body: TaskInput) {
     if (!isDueDateValid(body.due_date)) {
       errors.push({ field: 'due_date', message: 'Due date must be today or in the future' });
     } else {
-      data.due_date = new Date(body.due_date);
+      data.due_date = parseDateValue(body.due_date)!;
     }
   }
 
@@ -185,7 +186,7 @@ export function validateTaskUpdate(body: TaskInput, currentStatus: TaskStatus) {
     } else if (!isDueDateValid(body.due_date)) {
       errors.push({ field: 'due_date', message: 'Due date must be today or in the future' });
     } else {
-      updates.due_date = new Date(body.due_date);
+      updates.due_date = parseDateValue(body.due_date)!;
     }
   }
 
