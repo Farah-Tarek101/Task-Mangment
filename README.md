@@ -131,7 +131,23 @@ Before running the project, make sure you have:
 - npm
 
 ---
+## Quick Start
 
+```bash
+git clone https://github.com/Farah-Tarek101/Task-Mangment.git
+cd Task-Mangment
+npm install
+cp .env.example .env
+npm run migrate:up
+npm run seed
+npm run dev
+```
+
+API:
+
+```
+http://localhost:3000/api
+```
 # Installation
 
 ## 1. Clone Repository
@@ -298,7 +314,18 @@ docker-compose down -v
 ```
 
 ---
+# Architecture
 
+The application follows a layered architecture:
+
+- **Routes** define API endpoints.
+- **Controllers** handle HTTP requests and responses.
+- **Services** contain the business logic.
+- **Models** define MongoDB schemas using Mongoose.
+- **Middleware** handles authentication and error handling.
+- **Validators** validate incoming requests.
+  ---
+  
 # API Documentation
 
 Base URL:
@@ -409,7 +436,6 @@ The returned JWT token must be added to protected requests:
 ```
 Authorization: Bearer JWT_TOKEN
 ```
-
 ---
 
 # Projects API
@@ -558,10 +584,9 @@ Deleting a project also deletes all related tasks.
 
 ---
 
-## Create Task
+# Create Task
 
 ### Request
-
 
 ```
 POST /api/projects/:projectId/tasks
